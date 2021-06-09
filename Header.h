@@ -18,10 +18,12 @@ void dodavanjeProizvoda(char* fileName);
 void* ucitavanjeProizvoda(const char* const fileName);
 void unesiProizvod(PROIZVOD* igra);
 void ispisivanje(char* fileName, int id);
-void* pretrazivanje(PROIZVOD* const);
+void* pretrazivanje(PROIZVOD* const, char* fileName);
 void narucivanjeProizvoda(char* fileNarudzba);
 void ispisivanjeNarudzba(char* fileNarudzba, int id);
 int exitProgram();
 int checkCondition(char* str);
 void brisanje(char* fileName);
+void brisanjeProizvoda(PROIZVOD** const trazeniProizvod, const PROIZVOD* const poljeProizvoda,
+	const char* const fileName);
 #endif

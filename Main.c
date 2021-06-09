@@ -43,12 +43,15 @@ int main(void) {
 			ispisivanjeNarudzba(fileNarudzba, -1);
 			break;
 		case 4:
-			pronadeniProizvod = (PROIZVOD*)pretrazivanje(poljeProizvoda);
+			pronadeniProizvod = (PROIZVOD*)pretrazivanje(&poljeProizvoda, fileName);
 			break;
 		case 8:
 			brisanje(fileName);
 			break;
 		case 9:
+			brisanjeProizvoda(&pronadeniProizvod, poljeProizvoda, fileName);
+			break;
+		case 10:
 			inputOption = exitProgram();
 			break;
 		default:

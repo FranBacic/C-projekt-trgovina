@@ -8,8 +8,9 @@ void menu() {
 	printf("5: Narucivanje proizvoda\n");
 	printf("6: Ispis narucenih proizvoda\n");
 	printf("7: Ispis sortiranih proizvoda po cijeni\n");
-	printf("8: Obrisi proizvod\n");
-	printf("9: Izlaz iz programa\n");
+	printf("8: Brisanje datoteke\n");
+	printf("9: Brisanje proizvoda\n");
+	printf("10: Izlaz iz programa\n");
 }
 
 
@@ -90,7 +91,7 @@ void ispisivanje(char* fileName, int id) {
 		fread(&brojProizvoda, sizeof(int), 1, File1);
 		for (i = 0; i < brojProizvoda; i++) {
 			fread(&igra, sizeof(PROIZVOD), 1, File1);
-		if (id == -1) {
+			if (id == -1) {
 				printf("\nNaziv: %s\n", igra.naziv);
 				printf("Cijena: %.2f kn\n", igra.cijena);
 				printf("Platforma: %s\n", igra.platforma);
@@ -158,27 +159,53 @@ void* pretrazivanje(PROIZVOD* const poljeProizvoda, char* fileName) {
 	}
 	int brojProizvoda = 0;
 	int i;
-	char trazeniProizvod[50] = { '\0' };
-	fread(&brojProizvoda, sizeof(int), 1, poljeProizvoda);
+	const char* trazeniProizvod[50] = { '\0' };
+	FILE* File1 = fopen(fileName, "rb");
+	fread(&brojProizvoda, sizeof(int), 1, File1);
 	printf("Unesite ime igre koju trazite.\n");
 	getchar();
-	scanf("%49[^\n]", trazeniProizvod);
-
+	scanf("%49[^\n]", &trazeniProizvod);
 	for (i = 0; i < brojProizvoda; i++)
 	{
-		if (strcmp(trazeniProizvod, (poljeProizvoda + i)->naziv)) {
-			printf("naziv: %s\n", (poljeProizvoda + i)->naziv);
-			printf("cijena: %f\n", (poljeProizvoda + i)->cijena);
-			printf("platforma: %s\n", (poljeProizvoda + i)->platforma);
-			printf("id: %ld\n", (poljeProizvoda + i)->id);
+		if (!strcmp(trazeniProizvod, (poljeProizvoda + i)->naziv)) {
+			printf("pronaden\n");
+			//printf("naziv: %s\n", (poljeProizvoda + i)->naziv);
+				/*printf("cijena: %f\n", (poljeProizvoda + i)->cijena);
+				printf("platforma: %s\n", (poljeProizvoda + i)->platforma);
+				printf("id: %ld\n", (poljeProizvoda + i)->id);*/
+				return (poljeProizvoda + i);
 		}
-
 	}
-	if (!strcmp(trazeniProizvod, (poljeProizvoda + i)->naziv)) {
-	printf("Proizvod nije pronaden!\n");
+
+	
+		printf("Proizvod nije pronaden!\n");
+		return NULL;
+	
 }
-	free(poljeProizvoda);
-	return NULL;
+
+void brisanjeProizvoda(PROIZVOD** const trazeniProizvod, const PROIZVOD* const poljeProizvoda,
+	const char* const fileName) {
+	FILE* File1 = fopen(fileName, "wb");
+	if (File1 == NULL) {
+		printf("Nije pronadena binarna datoteka!\n");
+	}
+	fseek(File1, sizeof(int), SEEK_SET);
+	int i;
+	int brojProizvoda = 0;
+	fread(&brojProizvoda, sizeof(int), 1, poljeProizvoda);
+	int noviBrojacProizvoda = 0;
+	for (i = 0; i < brojProizvoda; i++)
+	{
+		if (*trazeniProizvod != (poljeProizvoda + i)) {
+			fwrite((poljeProizvoda + i), sizeof(PROIZVOD), 1, File1);
+			noviBrojacProizvoda++;
+		}
+	}
+	rewind(File1);
+	fwrite(&noviBrojacProizvoda, sizeof(int), 1, File1);
+	fclose(File1);
+	printf("Proizvod je uspjesno obrisan!\n");
+	*trazeniProizvod = NULL;
 }
 
 void brisanje(char* fileName) {
@@ -212,6 +239,5 @@ int checkCondition(char* str) {
 	return 1;
 }
 
-void sortiranje(PROIZVOD* const poljeProizvoda, char* fileName) {
 
-}
+
