@@ -27,7 +27,7 @@ int main(void) {
 			}
 			poljeProizvoda = (PROIZVOD*)ucitavanjeProizvoda(fileName);
 			if (poljeProizvoda == NULL) {
-				exit(EXIT_FAILURE);
+				printf("Greska");
 			}
 
 			break;
@@ -43,7 +43,7 @@ int main(void) {
 			ispisivanjeNarudzba(fileNarudzba, -1);
 			break;
 		case 4:
-			pronadeniProizvod = (PROIZVOD*)pretrazivanje(&poljeProizvoda, fileName);
+			pronadeniProizvod = (PROIZVOD*)pretrazivanje(poljeProizvoda,fileName);
 			break;
 		case 8:
 			brisanje(fileName);

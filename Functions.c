@@ -58,23 +58,25 @@ void unesiProizvod(PROIZVOD* igra) {
 
 void* ucitavanjeProizvoda(const char* const fileName) {
 	int brojProizvoda = 0;
+	int i;
 	FILE* File1 = fopen(fileName, "rb");
 	if (File1 == NULL) {
 		printf("Greska tijekom otvaranja datoteke");
+	}
 		fread(&brojProizvoda, sizeof(int), 1, File1);
-		printf("Broj proizvoda: %d", brojProizvoda);
+		printf("Broj proizvoda:%d\n", brojProizvoda);
 		PROIZVOD* poljeProizvoda = (PROIZVOD*)malloc(brojProizvoda, sizeof(PROIZVOD));
 		if (poljeProizvoda == NULL) {
 			printf("Greska prilikom stvaranja polja");
 			return NULL;
 		}
-		else {
-			printf("%d", brojProizvoda);
-			return NULL;
-
+		fread(poljeProizvoda, sizeof(PROIZVOD), brojProizvoda, File1);
+		for (i = 0; i < brojProizvoda; i++) {
+			printf("\n%s\n", poljeProizvoda+i);
 		}
+		return poljeProizvoda;
 	}
-}
+
 
 
 
@@ -161,26 +163,27 @@ void* pretrazivanje(PROIZVOD* const poljeProizvoda, char* fileName) {
 	int i;
 	const char* trazeniProizvod[50] = { '\0' };
 	FILE* File1 = fopen(fileName, "rb");
+	if (File1 == NULL) {
+		printf("Greska pri otvaranju datoteke");
+	}
 	fread(&brojProizvoda, sizeof(int), 1, File1);
 	printf("Unesite ime igre koju trazite.\n");
+	scanf("%49[^\n]", trazeniProizvod);
 	getchar();
-	scanf("%49[^\n]", &trazeniProizvod);
 	for (i = 0; i < brojProizvoda; i++)
 	{
 		if (!strcmp(trazeniProizvod, (poljeProizvoda + i)->naziv)) {
-			printf("pronaden\n");
-			//printf("naziv: %s\n", (poljeProizvoda + i)->naziv);
-				/*printf("cijena: %f\n", (poljeProizvoda + i)->cijena);
+			printf("naziv: %s\n", (poljeProizvoda + i)->naziv);
+				printf("cijena: %.2f kn\n", (poljeProizvoda + i)->cijena);
 				printf("platforma: %s\n", (poljeProizvoda + i)->platforma);
-				printf("id: %ld\n", (poljeProizvoda + i)->id);*/
-				return (poljeProizvoda + i);
+				printf("id: %ld\n", (poljeProizvoda + i)->id);
+			return (poljeProizvoda+i);
 		}
 	}
 
-	
-		printf("Proizvod nije pronaden!\n");
-		return NULL;
-	
+	printf("Proizvod nije pronaden!\n");
+	return NULL;
+
 }
 
 void brisanjeProizvoda(PROIZVOD** const trazeniProizvod, const PROIZVOD* const poljeProizvoda,
@@ -208,7 +211,7 @@ void brisanjeProizvoda(PROIZVOD** const trazeniProizvod, const PROIZVOD* const p
 	*trazeniProizvod = NULL;
 }
 
-void brisanje(char* fileName) {
+void brisanje(const char* fileName) {
 	printf("Zelite li obrisati datoteku %s?\n", fileName);
 	printf("Utipkajte da ili ne\n");
 	char potvrda[3] = { '\0' };
@@ -238,6 +241,6 @@ int checkCondition(char* str) {
 	if (toupper(str[0]) == 'N' && toupper(str[1]) == 'E' && toupper(str[2]) == '\0') return 0;
 	return 1;
 }
-
-
-
+int izlazIzPrograma(PROIZVOD* poljeProizvoda) {
+	free(poljeProizvoda);
+}
