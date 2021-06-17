@@ -2,7 +2,7 @@
 
 int main(void) {
 
-	int inputOption;
+	int inputOption=0;
 	char* fileName = "Proizvodi.bin";
 	static PROIZVOD* poljeProizvoda = NULL;
 	static PROIZVOD* pronadeniProizvod = NULL;
@@ -33,7 +33,7 @@ int main(void) {
 			break;
 
 		case 3:
-			ispisivanje(fileName, -1);
+			ispisivanje(poljeProizvoda,fileName);
 			break;
 
 		case 5:
@@ -43,7 +43,7 @@ int main(void) {
 			ispisivanjeNarudzba(fileNarudzba, -1);
 			break;
 		case 4:
-			pronadeniProizvod = (PROIZVOD*)pretrazivanje(poljeProizvoda,fileName);
+			pronadeniProizvod = (PROIZVOD*)pretrazivanje(poljeProizvoda, fileName);
 			break;
 		case 8:
 			brisanje(fileName);

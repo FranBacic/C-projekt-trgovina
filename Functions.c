@@ -1,4 +1,7 @@
 #include "Header.h"
+static int brojProizvoda = 0;
+
+
 void menu() {
 	printf("Odaberite opciju\n");
 	printf("1: Dodavanje proizvoda\n");
@@ -52,6 +55,7 @@ void unesiProizvod(PROIZVOD* igra) {
 
 	printf("Unesite ID igre: ");
 	scanf("%ld", &igra->id);
+	brojProizvoda++;
 	getchar();
 
 }
@@ -63,47 +67,49 @@ void* ucitavanjeProizvoda(const char* const fileName) {
 	if (File1 == NULL) {
 		printf("Greska tijekom otvaranja datoteke");
 	}
-		fread(&brojProizvoda, sizeof(int), 1, File1);
-		printf("Broj proizvoda:%d\n", brojProizvoda);
-		PROIZVOD* poljeProizvoda = (PROIZVOD*)malloc(brojProizvoda, sizeof(PROIZVOD));
-		if (poljeProizvoda == NULL) {
-			printf("Greska prilikom stvaranja polja");
-			return NULL;
-		}
-		fread(poljeProizvoda, sizeof(PROIZVOD), brojProizvoda, File1);
-		for (i = 0; i < brojProizvoda; i++) {
-			printf("\n%s\n", poljeProizvoda+i);
-		}
-		return poljeProizvoda;
+	fread(&brojProizvoda, sizeof(int), 1, File1);
+	printf("Broj proizvoda:%d\n", brojProizvoda);
+	PROIZVOD* poljeProizvoda = (PROIZVOD*)malloc(brojProizvoda *sizeof(PROIZVOD));
+	if (poljeProizvoda == NULL) {
+		printf("Greska prilikom stvaranja polja");
+		return NULL;
 	}
+	fread(poljeProizvoda, sizeof(PROIZVOD), brojProizvoda, File1);
+	for (i = 0; i < brojProizvoda; i++) {
+		printf("\n%s\n", poljeProizvoda + i);
+	}
+	return poljeProizvoda;
+}
 
 
 
 
 
 
-void ispisivanje(char* fileName, int id) {
+void ispisivanje(const PROIZVOD* const poljeProizvoda, char* fileName) {
+	if (poljeProizvoda == NULL) {
+		printf("Polje proizvoda je prazno!\n");
+		return;
+	}
 	FILE* File1 = fopen(fileName, "rb");
 	if (File1 == NULL) {
-		printf("Nisu unesene igre!\n");
+		printf("Greska pri otvaranju datoteke");
 	}
-	PROIZVOD igra;
-	int brojProizvoda, i;
-	if (File1 != NULL) {
-		fread(&brojProizvoda, sizeof(int), 1, File1);
-		for (i = 0; i < brojProizvoda; i++) {
-			fread(&igra, sizeof(PROIZVOD), 1, File1);
-			if (id == -1) {
-				printf("\nNaziv: %s\n", igra.naziv);
-				printf("Cijena: %.2f kn\n", igra.cijena);
-				printf("Platforma: %s\n", igra.platforma);
-				printf("ID: %ld\n", igra.id);
-			}
-		}
-		fclose(File1);
+	fread(&brojProizvoda, sizeof(int), 1, File1);
+	int i;
+	for (i = 0; i < brojProizvoda; i++)
+	{
+		printf("naziv: %s\n", (poljeProizvoda + i)->naziv);
+		printf("cijena: %.2f kn\n", (poljeProizvoda + i)->cijena);
+		printf("platforma: %s\n", (poljeProizvoda + i)->platforma);
+		printf("id: %ld\n", (poljeProizvoda + i)->id);
 	}
-	puts("\nKRAJ\n");
+	return;
 }
+	
+
+
+
 
 
 
@@ -170,14 +176,14 @@ void* pretrazivanje(PROIZVOD* const poljeProizvoda, char* fileName) {
 	printf("Unesite ime igre koju trazite.\n");
 	scanf("%49[^\n]", trazeniProizvod);
 	getchar();
-	for (i = 0; i < brojProizvoda; i++)
+	for (i = 0; i < 5; i++)
 	{
 		if (!strcmp(trazeniProizvod, (poljeProizvoda + i)->naziv)) {
 			printf("naziv: %s\n", (poljeProizvoda + i)->naziv);
-				printf("cijena: %.2f kn\n", (poljeProizvoda + i)->cijena);
-				printf("platforma: %s\n", (poljeProizvoda + i)->platforma);
-				printf("id: %ld\n", (poljeProizvoda + i)->id);
-			return (poljeProizvoda+i);
+			printf("cijena: %.2f kn\n", (poljeProizvoda + i)->cijena);
+			printf("platforma: %s\n", (poljeProizvoda + i)->platforma);
+			printf("id: %ld\n", (poljeProizvoda + i)->id);
+			return (poljeProizvoda + i);
 		}
 	}
 
