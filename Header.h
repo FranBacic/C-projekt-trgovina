@@ -26,4 +26,6 @@ int checkCondition(char* str);
 void brisanje(char* fileName);
 void brisanjeProizvoda(PROIZVOD** const trazeniProizvod, const PROIZVOD* const poljeProizvoda,
 	const char* const fileName);
+void zamjena(PROIZVOD* veci, PROIZVOD* manji);
+void selectionSortNajjefCijena(PROIZVOD* poljeProizvoda, char* fileName);
 #endif

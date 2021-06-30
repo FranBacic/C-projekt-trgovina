@@ -65,7 +65,8 @@ void* ucitavanjeProizvoda(const char* const fileName) {
 	int i;
 	FILE* File1 = fopen(fileName, "rb");
 	if (File1 == NULL) {
-		printf("Greska tijekom otvaranja datoteke");
+		printf("Greska tijekom otvaranja datoteke\n");
+		return;
 	}
 	fread(&brojProizvoda, sizeof(int), 1, File1);
 	printf("Broj proizvoda:%d\n", brojProizvoda);
@@ -201,7 +202,7 @@ void brisanjeProizvoda(PROIZVOD** const trazeniProizvod, const PROIZVOD* const p
 	fseek(File1, sizeof(int), SEEK_SET);
 	int i;
 	int brojProizvoda = 0;
-	fread(&brojProizvoda, sizeof(int), 1, poljeProizvoda);
+	fread(&brojProizvoda, sizeof(int), 1, File1);
 	int noviBrojacProizvoda = 0;
 	for (i = 0; i < brojProizvoda; i++)
 	{
@@ -227,6 +228,57 @@ void brisanje(const char* fileName) {
 			fileName) : printf("Neuspjesno brisanje datoteke %s!\n", fileName);
 	}
 }
+
+void zamjena(PROIZVOD* veci, PROIZVOD* manji) {
+	PROIZVOD temp = { 0 };
+	temp = *manji;
+	*manji = *veci;
+	*veci = temp;
+}
+
+void selectionSortNajjefCijena(PROIZVOD* poljeProizvoda, char* fileName) {
+	int min = -1;
+	int i, j;
+	FILE* File1 = fopen(fileName, "rb");
+	if (File1 == NULL) {
+		printf("Greska pri otvaranju datoteke");
+	}
+	if (poljeProizvoda == NULL) {
+		printf("Polje proizvoda je prazno.\n");
+		return NULL;
+	}
+	fread(&brojProizvoda, sizeof(int), 1, File1);
+	printf("Sortirani artikli po cijeni od najjeftinijeg do najskupljeg.\n");
+	for (i = 0; i < brojProizvoda - 1; i++)
+	{
+		min = i;
+		for (j = i + 1; j < brojProizvoda; j++)
+		{
+			if ((poljeProizvoda + j)->cijena < (poljeProizvoda + min)->cijena) {
+				min = j;
+			}
+		}
+		zamjena((poljeProizvoda + i), (poljeProizvoda + min));
+	}
+
+	for (i = 0; i < brojProizvoda; i++)
+	{
+		if (i == 0) {
+			printf("Naziv: %s\nCijena: %f\nPlatforma: %s\nID: %ld\n\n", (poljeProizvoda + i)->naziv, (poljeProizvoda + i)->cijena, (poljeProizvoda + i)->platforma, (poljeProizvoda + i)->id);
+
+		}
+		else if (i > 0 && i < brojProizvoda - 1) {
+			printf("Naziv: %s\nCijena: %f\nPlatforma: %s\nID: %ld\n\n", (poljeProizvoda + i)->naziv, (poljeProizvoda + i)->cijena, (poljeProizvoda + i)->platforma, (poljeProizvoda + i)->id);
+
+		}
+		else {
+			printf("Naziv: %s\nCijena: %f\nPlatforma: %s\nID: %ld\n\n", (poljeProizvoda + i)->naziv, (poljeProizvoda + i)->cijena, (poljeProizvoda + i)->platforma, (poljeProizvoda + i)->id);
+
+		}
+	}
+	printf("\n");
+}
+
 
 int exitProgram() {
 	char str[3], c;

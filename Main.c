@@ -7,7 +7,6 @@ int main(void) {
 	static PROIZVOD* poljeProizvoda = NULL;
 	static PROIZVOD* pronadeniProizvod = NULL;
 	char* fileNarudzba = "Narudzba.bin";
-
 	do {
 		printf("-----------------------------------------------------------\n");
 		menu();
@@ -41,6 +40,9 @@ int main(void) {
 			break;
 		case 6:
 			ispisivanjeNarudzba(fileNarudzba, -1);
+			break;
+		case 7:
+			selectionSortNajjefCijena( poljeProizvoda, fileName);
 			break;
 		case 4:
 			pronadeniProizvod = (PROIZVOD*)pretrazivanje(poljeProizvoda, fileName);
