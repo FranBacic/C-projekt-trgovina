@@ -17,7 +17,7 @@ void menu();
 void dodavanjeProizvoda(char* fileName);
 void* ucitavanjeProizvoda(const char* const fileName);
 void unesiProizvod(PROIZVOD* igra);
-void ispisivanje(const PROIZVOD* const poljeProizvoda,char* fileName);
+void ispisivanje(const PROIZVOD* const poljeProizvoda, char* fileName);
 void* pretrazivanje(PROIZVOD* const, char* fileName);
 void narucivanjeProizvoda(char* fileNarudzba);
 void ispisivanjeNarudzba(char* fileNarudzba, int id);

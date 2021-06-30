@@ -70,7 +70,7 @@ void* ucitavanjeProizvoda(const char* const fileName) {
 	}
 	fread(&brojProizvoda, sizeof(int), 1, File1);
 	printf("Broj proizvoda:%d\n", brojProizvoda);
-	PROIZVOD* poljeProizvoda = (PROIZVOD*)malloc(brojProizvoda *sizeof(PROIZVOD));
+	PROIZVOD* poljeProizvoda = (PROIZVOD*)malloc(brojProizvoda * sizeof(PROIZVOD));
 	if (poljeProizvoda == NULL) {
 		printf("Greska prilikom stvaranja polja");
 		return NULL;
@@ -94,7 +94,8 @@ void ispisivanje(const PROIZVOD* const poljeProizvoda, char* fileName) {
 	}
 	FILE* File1 = fopen(fileName, "rb");
 	if (File1 == NULL) {
-		printf("Greska pri otvaranju datoteke");
+		printf("Greska pri otvaranju datoteke\n");
+		return;
 	}
 	fread(&brojProizvoda, sizeof(int), 1, File1);
 	int i;
@@ -107,7 +108,7 @@ void ispisivanje(const PROIZVOD* const poljeProizvoda, char* fileName) {
 	}
 	return;
 }
-	
+
 
 
 
@@ -171,7 +172,8 @@ void* pretrazivanje(PROIZVOD* const poljeProizvoda, char* fileName) {
 	const char* trazeniProizvod[50] = { '\0' };
 	FILE* File1 = fopen(fileName, "rb");
 	if (File1 == NULL) {
-		printf("Greska pri otvaranju datoteke");
+		printf("Greska pri otvaranju datoteke\n");
+		return;
 	}
 	fread(&brojProizvoda, sizeof(int), 1, File1);
 	printf("Unesite ime igre koju trazite.\n");
@@ -198,6 +200,7 @@ void brisanjeProizvoda(PROIZVOD** const trazeniProizvod, const PROIZVOD* const p
 	FILE* File1 = fopen(fileName, "wb");
 	if (File1 == NULL) {
 		printf("Nije pronadena binarna datoteka!\n");
+		return;
 	}
 	fseek(File1, sizeof(int), SEEK_SET);
 	int i;
@@ -242,6 +245,7 @@ void selectionSort(PROIZVOD* poljeProizvoda, char* fileName) {
 	FILE* File1 = fopen(fileName, "rb");
 	if (File1 == NULL) {
 		printf("Greska pri otvaranju datoteke");
+		return;
 	}
 	if (poljeProizvoda == NULL) {
 		printf("Polje proizvoda je prazno.\n");

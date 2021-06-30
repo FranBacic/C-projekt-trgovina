@@ -2,7 +2,7 @@
 
 int main(void) {
 
-	int inputOption=0;
+	int inputOption = 0;
 	char* fileName = "Proizvodi.bin";
 	static PROIZVOD* poljeProizvoda = NULL;
 	static PROIZVOD* pronadeniProizvod = NULL;
@@ -32,7 +32,7 @@ int main(void) {
 			break;
 
 		case 3:
-			ispisivanje(poljeProizvoda,fileName);
+			ispisivanje(poljeProizvoda, fileName);
 			break;
 
 		case 5:
@@ -42,7 +42,7 @@ int main(void) {
 			ispisivanjeNarudzba(fileNarudzba, -1);
 			break;
 		case 7:
-			selectionSort( poljeProizvoda, fileName);
+			selectionSort(poljeProizvoda, fileName);
 			break;
 		case 4:
 			pronadeniProizvod = (PROIZVOD*)pretrazivanje(poljeProizvoda, fileName);
