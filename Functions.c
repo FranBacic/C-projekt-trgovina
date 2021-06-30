@@ -236,7 +236,7 @@ void zamjena(PROIZVOD* veci, PROIZVOD* manji) {
 	*veci = temp;
 }
 
-void selectionSortNajjefCijena(PROIZVOD* poljeProizvoda, char* fileName) {
+void selectionSort(PROIZVOD* poljeProizvoda, char* fileName) {
 	int min = -1;
 	int i, j;
 	FILE* File1 = fopen(fileName, "rb");

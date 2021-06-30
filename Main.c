@@ -42,7 +42,7 @@ int main(void) {
 			ispisivanjeNarudzba(fileNarudzba, -1);
 			break;
 		case 7:
-			selectionSortNajjefCijena( poljeProizvoda, fileName);
+			selectionSort( poljeProizvoda, fileName);
 			break;
 		case 4:
 			pronadeniProizvod = (PROIZVOD*)pretrazivanje(poljeProizvoda, fileName);
