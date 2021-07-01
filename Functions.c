@@ -79,12 +79,9 @@ void* ucitavanjeProizvoda(const char* const fileName) {
 	for (i = 0; i < brojProizvoda; i++) {
 		printf("\n%s\n", poljeProizvoda + i);
 	}
+	fclose(File1);
 	return poljeProizvoda;
 }
-
-
-
-
 
 
 void ispisivanje(const PROIZVOD* const poljeProizvoda, char* fileName) {
@@ -104,8 +101,10 @@ void ispisivanje(const PROIZVOD* const poljeProizvoda, char* fileName) {
 		printf("naziv: %s\n", (poljeProizvoda + i)->naziv);
 		printf("cijena: %.2f kn\n", (poljeProizvoda + i)->cijena);
 		printf("platforma: %s\n", (poljeProizvoda + i)->platforma);
-		printf("id: %ld\n", (poljeProizvoda + i)->id);
+		printf("id: %ld\n\n", (poljeProizvoda + i)->id);
 	}
+	puts("\nKRAJ\n");
+	fclose(File1);
 	return;
 }
 
@@ -144,7 +143,7 @@ void ispisivanjeNarudzba(char* fileNarudzba, int id) {
 		printf("Nema narucenih igara!");
 	}
 	PROIZVOD igra;
-	int brojProizvoda, i;
+	int  i;
 	if (File1 != NULL) {
 		fread(&brojProizvoda, sizeof(int), 1, File1);
 		for (i = 0; i < brojProizvoda; i++) {
@@ -186,11 +185,13 @@ void* pretrazivanje(PROIZVOD* const poljeProizvoda, char* fileName) {
 			printf("cijena: %.2f kn\n", (poljeProizvoda + i)->cijena);
 			printf("platforma: %s\n", (poljeProizvoda + i)->platforma);
 			printf("id: %ld\n", (poljeProizvoda + i)->id);
+			fclose(File1);
 			return (poljeProizvoda + i);
 		}
 	}
 
 	printf("Proizvod nije pronaden!\n");
+	fclose(File1);
 	return NULL;
 
 }
@@ -217,7 +218,7 @@ void brisanjeProizvoda(PROIZVOD** const trazeniProizvod, const PROIZVOD* const p
 	rewind(File1);
 	fwrite(&noviBrojacProizvoda, sizeof(int), 1, File1);
 	fclose(File1);
-	printf("Proizvod je uspjesno obrisan!\n");
+	printf("Proizvodi su uspjesno obrisani!\n");
 	*trazeniProizvod = NULL;
 }
 
@@ -244,7 +245,7 @@ void selectionSort(PROIZVOD* poljeProizvoda, char* fileName) {
 	int i, j;
 	FILE* File1 = fopen(fileName, "rb");
 	if (File1 == NULL) {
-		printf("Greska pri otvaranju datoteke");
+		printf("Greska pri otvaranju datoteke\n");
 		return;
 	}
 	if (poljeProizvoda == NULL) {
@@ -252,7 +253,6 @@ void selectionSort(PROIZVOD* poljeProizvoda, char* fileName) {
 		return NULL;
 	}
 	fread(&brojProizvoda, sizeof(int), 1, File1);
-	printf("Sortirani artikli po cijeni od najjeftinijeg do najskupljeg.\n");
 	for (i = 0; i < brojProizvoda - 1; i++)
 	{
 		min = i;
@@ -268,19 +268,20 @@ void selectionSort(PROIZVOD* poljeProizvoda, char* fileName) {
 	for (i = 0; i < brojProizvoda; i++)
 	{
 		if (i == 0) {
-			printf("Naziv: %s\nCijena: %f\nPlatforma: %s\nID: %ld\n\n", (poljeProizvoda + i)->naziv, (poljeProizvoda + i)->cijena, (poljeProizvoda + i)->platforma, (poljeProizvoda + i)->id);
+			printf("Naziv: %s\nCijena: %.2f kn\nPlatforma: %s\nID: %ld\n\n", (poljeProizvoda + i)->naziv, (poljeProizvoda + i)->cijena, (poljeProizvoda + i)->platforma, (poljeProizvoda + i)->id);
 
 		}
 		else if (i > 0 && i < brojProizvoda - 1) {
-			printf("Naziv: %s\nCijena: %f\nPlatforma: %s\nID: %ld\n\n", (poljeProizvoda + i)->naziv, (poljeProizvoda + i)->cijena, (poljeProizvoda + i)->platforma, (poljeProizvoda + i)->id);
+			printf("Naziv: %s\nCijena: %.2f kn\nPlatforma: %s\nID: %ld\n\n", (poljeProizvoda + i)->naziv, (poljeProizvoda + i)->cijena, (poljeProizvoda + i)->platforma, (poljeProizvoda + i)->id);
 
 		}
 		else {
-			printf("Naziv: %s\nCijena: %f\nPlatforma: %s\nID: %ld\n\n", (poljeProizvoda + i)->naziv, (poljeProizvoda + i)->cijena, (poljeProizvoda + i)->platforma, (poljeProizvoda + i)->id);
+			printf("Naziv: %s\nCijena:%.2f kn\nPlatforma: %s\nID: %ld\n\n", (poljeProizvoda + i)->naziv, (poljeProizvoda + i)->cijena, (poljeProizvoda + i)->platforma, (poljeProizvoda + i)->id);
 
 		}
 	}
 	printf("\n");
+	fclose(File1);
 }
 
 
